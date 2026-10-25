@@ -1,6 +1,12 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.ARGUMENT_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.ARGUMENT_ID;
+import static seedu.address.logic.parser.CliSyntax.ARGUMENT_NAME;
+import static seedu.address.logic.parser.CliSyntax.EXAMPLE_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.EXAMPLE_ID;
+import static seedu.address.logic.parser.CliSyntax.EXAMPLE_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
@@ -26,18 +32,22 @@ public class EditCommand extends Command {
 
     public static final String COMMAND_WORD = "edit";
 
+    private static final String FIELD_NAME = "Name";
+    private static final String FIELD_STUDENT_ID = "Student ID";
+    private static final String FIELD_EMAIL = "Email";
+
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Edits the details of a student identified by their current student ID.\n"
             + "At least one field must be provided for updating.\n"
             + "Parameters: "
-            + PREFIX_ID + " CURRENT_ID "
-            + "[" + PREFIX_NAME + " NEW_NAME] "
+            + PREFIX_ID + " " + ARGUMENT_ID + " "
+            + "[" + PREFIX_NAME + " " + ARGUMENT_NAME + "] "
             + "[" + PREFIX_NEW_ID + " NEW_ID] "
-            + "[" + PREFIX_EMAIL + " NEW_EMAIL]\n"
+            + "[" + PREFIX_EMAIL + " " + ARGUMENT_EMAIL + "]\n"
             + "Example: " + COMMAND_WORD
-            + " " + PREFIX_ID + " A1234567Z"
-            + " " + PREFIX_NAME + " John Tan"
-            + " " + PREFIX_EMAIL + " johntan@u.nus.edu";
+            + " " + PREFIX_ID + " " + EXAMPLE_ID
+            + " " + PREFIX_NAME + " " + EXAMPLE_NAME
+            + " " + PREFIX_EMAIL + " " + EXAMPLE_EMAIL;
 
     public static final String MESSAGE_EDIT_STUDENT_SUCCESS = "Student with id %s updated successfully."
             + " \nChanged fields: %s";
@@ -113,15 +123,15 @@ public class EditCommand extends Command {
         StringJoiner changes = new StringJoiner("\n");
 
         if (!original.getName().equals(edited.getName())) {
-            changes.add("Name: " + edited.getName());
+            changes.add(FIELD_NAME + ": " + edited.getName());
         }
 
         if (!original.getId().equals(edited.getId())) {
-            changes.add("Student ID: " + edited.getId());
+            changes.add(FIELD_STUDENT_ID + ": " + edited.getId());
         }
 
         if (!original.getEmail().equals(edited.getEmail())) {
-            changes.add("Email: " + edited.getEmail());
+            changes.add(FIELD_EMAIL + ": " + edited.getEmail());
         }
 
         return changes.toString();
@@ -134,17 +144,17 @@ public class EditCommand extends Command {
 
         descriptor.getName().ifPresent(name -> {
             if (originalStudent.getName().equals(name)) {
-                unchangedFields.add("Name");
+                unchangedFields.add(FIELD_NAME);
             }
         });
         descriptor.getId().ifPresent(id -> {
             if (originalStudent.getId().equals(id)) {
-                unchangedFields.add("Student ID");
+                unchangedFields.add(FIELD_STUDENT_ID);
             }
         });
         descriptor.getEmail().ifPresent(email -> {
             if (originalStudent.getEmail().equals(email)) {
-                unchangedFields.add("Email");
+                unchangedFields.add(FIELD_EMAIL);
             }
         });
 
